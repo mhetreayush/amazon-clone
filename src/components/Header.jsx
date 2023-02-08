@@ -4,7 +4,11 @@ import {
   AiOutlineSearch,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
+import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 const Header = () => {
+  const { data: session } = useSession();
+
   return (
     <header>
       {/* Top Nav */}
@@ -14,8 +18,9 @@ const Header = () => {
             src="https://links.papareact.com/f90"
             width={150}
             height={40}
-            objectFit="contain"
-            className="cursor-pointer"
+            // objectFit="contain"
+            className="cursor-pointer object-contain"
+            alt="amazon logo"
           />
         </div>
         {/* Search */}
@@ -28,10 +33,10 @@ const Header = () => {
         </div>
 
         <div className="text-white flex items-center text-xs gap-x-6 mx-6 whitespace-nowrap">
-          <div className="link">
-            <p>Hello Ayush Mhetre</p>
+          <button onClick={!session ? signIn : signOut} className="link">
+            <p>{session ? `Hello, ${session.user.name}` : "Sign in"}</p>
             <p className="font-bold md:text-sm">Accounts & Lists</p>
-          </div>
+          </button>
           <div className="link">
             <p>Accounts</p>
             <p className="font-bold md:text-sm">& Orders</p>
